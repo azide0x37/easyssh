@@ -80,9 +80,11 @@ func (ssh_conf *MakeConfig) connect() (*ssh.Session, error) {
 	}
 
 	clientConfig := &ssh.ClientConfig{
+		Config: config,
 		User: ssh_conf.User,
 		Auth: auths,
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+		Timeout: time.Duration(30)*time.Second,
 	}
 
 	client, err := ssh.Dial("tcp", ssh_conf.Server+":"+ssh_conf.Port, clientConfig)
