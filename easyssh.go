@@ -75,13 +75,17 @@ func (ssh_conf *MakeConfig) connect() (*ssh.Session, error) {
 		auths = append(auths, ssh.PublicKeys(pubkey))
 	}
 
-	config := &ssh.ClientConfig{
+	config := &ssh.Config{
+		Ciphers: "aes256-cbc",
+	}
+
+	clientConfig := &ssh.ClientConfig{
 		User: ssh_conf.User,
 		Auth: auths,
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 
-	client, err := ssh.Dial("tcp", ssh_conf.Server+":"+ssh_conf.Port, config)
+	client, err := ssh.Dial("tcp", ssh_conf.Server+":"+ssh_conf.Port, clientConfig)
 	if err != nil {
 		return nil, err
 	}
