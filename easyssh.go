@@ -76,7 +76,7 @@ func (ssh_conf *MakeConfig) connect() (*ssh.Session, error) {
 	}
 
 	config := &ssh.Config{
-		Ciphers: ["aes128-cbc", "3des-cbc", "blowfish-cbc", "cast128-cbc", "arcfour", "aes192-cbc", "aes256-cbc", "aes128-ctr", "aes192-ctr", "aes256-ctr", "aes128-gcm@openssh.com", "arcfour256", "arcfour128"]
+		Ciphers: ["aes128-cbc", "3des-cbc", "blowfish-cbc", "cast128-cbc", "arcfour", "aes192-cbc", "aes256-cbc", "aes128-ctr", "aes192-ctr", "aes256-ctr", "aes128-gcm@openssh.com", "arcfour256", "arcfour128"],
 	}
 
 	clientConfig := &ssh.ClientConfig{
@@ -84,7 +84,7 @@ func (ssh_conf *MakeConfig) connect() (*ssh.Session, error) {
 		User: ssh_conf.User,
 		Auth: auths,
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
-		Timeout: time.Duration(30)*time.Second,
+		Timeout: 300*time.Second,
 	}
 
 	client, err := ssh.Dial("tcp", ssh_conf.Server+":"+ssh_conf.Port, clientConfig)
