@@ -109,6 +109,7 @@ func (ssh_conf *MakeConfig) Stream(command string, timeout int) (stdout chan str
 	if err != nil {
 		return stdout, stderr, done, err
 	}
+	// defer ssh_conf.Close()
 	// connect to both outputs (they are of type io.Reader)
 	outReader, err := session.StdoutPipe()
 	if err != nil {
