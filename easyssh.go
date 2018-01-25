@@ -75,8 +75,9 @@ func (ssh_conf *MakeConfig) connect() (*ssh.Session, error) {
 		auths = append(auths, ssh.PublicKeys(pubkey))
 	}
 
-	config := &ssh.Config{
-		Ciphers: ["aes128-cbc", "3des-cbc", "blowfish-cbc", "cast128-cbc", "arcfour", "aes192-cbc", "aes256-cbc", "aes128-ctr", "aes192-ctr", "aes256-ctr", "aes128-gcm@openssh.com", "arcfour256", "arcfour128"],
+	ciphers := []string{"aes128-cbc", "3des-cbc", "blowfish-cbc", "cast128-cbc", "arcfour", "aes192-cbc", "aes256-cbc", "aes128-ctr", "aes192-ctr", "aes256-ctr", "aes128-gcm@openssh.com", "arcfour256", "arcfour128"}
+	config := ssh.Config{
+		Ciphers: ciphers,
 	}
 
 	clientConfig := &ssh.ClientConfig{
@@ -109,7 +110,6 @@ func (ssh_conf *MakeConfig) Stream(command string, timeout int) (stdout chan str
 	if err != nil {
 		return stdout, stderr, done, err
 	}
-	defer ssh_conf.Close()
 	// connect to both outputs (they are of type io.Reader)
 	outReader, err := session.StdoutPipe()
 	if err != nil {
